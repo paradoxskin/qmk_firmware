@@ -31,7 +31,7 @@ EEPROM_DRIVER = wear_leveling
 WEAR_LEVELING_DRIVER = spi_flash
 
 # Custom RGB matrix handling
-RGB_MATRIX_ENABLE = no
+RGB_MATRIX_ENABLE = yes
 
 # Keys
 CUSTOM_MATRIX = lite
