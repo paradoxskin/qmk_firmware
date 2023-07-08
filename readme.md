@@ -34,3 +34,17 @@ QMK is developed and maintained by Jack Humbert of OLKB with contributions from 
 ## Official Website
 
 [qmk.fm](https://qmk.fm) is the official website of QMK, where you can find links to this page, the documentation, and the keyboards supported by QMK.
+
+## Kb's Build & Flash
+
+### Keychron:
+
+* Build: `qmk compile -kb keychron/v4/ansi -km paradoxskin` => `keychron_v4_ansi_paradoxskin.bin`
+* DFU: Hold reset button under L5#4 while replugin USB
+* Flash: Just use qmk-toolbox
+
+### AP2:
+
+* Build: `qmk compile -kb annepro2/c18 -km paradoxskin` => `annepro2_c18_paradoxskin.bin`
+* DFU: Hold L1#1 while replugin USB
+* Flash: Use [annepro2\_tools](https://github.com/OpenAnnePro/AnnePro2-Tools)
