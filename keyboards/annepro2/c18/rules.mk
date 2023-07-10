@@ -51,3 +51,5 @@ SRC = \
 	protocol.c \
 	rgb_driver.c \
 	config_led.c
+
+TAP_DANCE_ENABLE = yes

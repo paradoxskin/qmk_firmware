@@ -33,22 +33,21 @@ enum anne_pro_layers {
 * |       |       |       |                                 |       |  LEFT | DOWN  | RIGHT |
 * \-----------------------------------------------------------------------------------------/
 */
+enum {
+    TD_C_CE,
+};
+
+tap_dance_action_t tap_dance_actions[] = {
+    [TD_C_CE] = ACTION_TAP_DANCE_DOUBLE(KC_LCTL, C(KC_E))
+};
+
  const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
- /* EMPTY
- [_BASE_LAYER] = KEYMAP(
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
-),
-*/
  [_BASE_LAYER] = LAYOUT_60_ansi( /* Base */
     KC_GRAVE,         KC_1,     KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,
     KC_TAB,           KC_Q,     KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_LBRC,  KC_RBRC,  KC_BSLS,
     LT(_FN1,KC_ESC),  KC_A,     KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,            KC_ENT,
     KC_LSFT,                    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,   KC_SLSH,            RSFT_T(KC_UP),
-    KC_LCTL,          MO(_FN2),          KC_LGUI, MT(MOD_LALT,KC_SPC),                KC_RALT, LT(_FN1,KC_LEFT),  LT(_FN2,KC_DOWN),   RCTL_T(KC_RIGHT)
+    TD(TD_C_CE),      MO(_FN2),          KC_LGUI, MT(MOD_LALT,KC_SPC),                KC_RALT, LT(_FN1,KC_LEFT),  LT(_FN2,KC_DOWN),   RCTL_T(KC_RIGHT)
 ),
 
  [_FN1] = LAYOUT_60_ansi( /* Base */
