@@ -43,7 +43,7 @@ enum {
 
 tap_dance_action_t tap_dance_actions[] = {
     [TD_C_CE] = ACTION_TAP_DANCE_DOUBLE(KC_LCTL, C(KC_E)),
-    [TD_R_BK] = ACTION_TAP_DANCE_LAYER_MOVE(KC_RIGHT, WIN_BASE)
+    [TD_R_BK] = ACTION_TAP_DANCE_LAYER_MOVE(KC_RIGHT, _BASE_LAYER)
 };
 
 const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -71,7 +71,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_MUTE, XXXXXXX,  KC_MPLY,                            XXXXXXX,                            XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX
     ),
 
-    [_FN3] = LAYOUT_ansi_61(
+    [_FN3] = LAYOUT_60_ansi(
         TO(_TN2), _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,  _______,
         _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,  _______,
         _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,            _______,
@@ -80,7 +80,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     // TO layer
-    [_TN1] = LAYOUT_ansi_61(
+    [_TN1] = LAYOUT_60_ansi(
         KC_TAB,  KC_ENT,   KC_ENT,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,  _______,
         KC_7,    KC_8,     KC_9,    _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,  _______,
         KC_4,    KC_5,     KC_6,    _______, _______, _______, _______, _______, _______, _______, _______,  _______,            _______,
@@ -88,7 +88,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_0,    KC_0,     KC_0,                               _______,                            _______,  _______,  _______,  TD(TD_R_BK)
     ),
 
-    [_TN2] = LAYOUT_ansi_61(
+    [_TN2] = LAYOUT_60_ansi(
         _______, KC_F1,    KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,   KC_F11,   KC_F12,   _______,
         _______, _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,  _______,
         _______, _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,            _______,
