@@ -7,6 +7,7 @@ enum anne_pro_layers {
   _FN3,
   _TN1,
   _TN2,
+  _TNG,
 };
 
 // Key symbols are based on QMK. Use them to remap your keyboard
@@ -64,10 +65,10 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_FN2] = LAYOUT_60_ansi( /* Base */
-        KC_WH_U, KC_F1,    KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,   KC_F11,   KC_F12,   XXXXXXX,
+        KC_WH_U, KC_F1,    KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,   KC_F11,   KC_F12,   KC_DEL,
         KC_WH_D, KC_WH_L,  KC_WH_R, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  KC_HOME,  KC_END,   XXXXXXX,
-        KC_VOLD, KC_VOLU,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,XXXXXXX,  XXXXXXX,            XXXXXXX,
-        KC_MPRV,           KC_MNXT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,            XXXXXXX,
+        KC_VOLD, KC_VOLU,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,XXXXXXX,  KC_PGUP,            XXXXXXX,
+        KC_MPRV,           KC_MNXT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  KC_PGDN,            XXXXXXX,
         KC_MUTE, XXXXXXX,  KC_MPLY,                            XXXXXXX,                            XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX
     ),
 
@@ -75,7 +76,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         TO(_TN2), _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,  _______,
         _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,  _______,
         _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,            _______,
-        _______,            _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,            _______,
+        TO(_TNG),           _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,            _______,
         TO(_TN1), _______,  _______,                            _______,                            _______,  _______,  _______,  _______
     ),
 
@@ -94,6 +95,14 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,            _______,
         _______,           _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,            _______,
         _______, _______,  _______,                            _______,                            _______,  _______,  _______,  TD(TD_R_BK)
+    ),
+
+    [_TNG] = LAYOUT_60_ansi(
+        _______, _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,  _______,
+        _______, _______,  _______, _______, _______, _______, _______, _______, _______, _______, KC_ESC,   _______,  _______,  _______,
+        KC_P,    _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,            _______,
+        _______,           _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,            _______,
+        KC_LCTL, _______,  _______,                            KC_SPACE,                           _______,  _______,  _______,  TD(TD_R_BK)
     ),
 };
 const uint16_t keymaps_size = sizeof(keymaps);
