@@ -21,4 +21,4 @@
 #define RGB_MATRIX_LED_COUNT DRIVER_1_LED_TOTAL
 
 /* Enable CapsLcok LED*/
-#define CAPS_LOCK_LED_INDEX 28
+#define CAPS_LOCK_LED_INDEX 0
