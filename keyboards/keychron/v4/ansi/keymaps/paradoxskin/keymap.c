@@ -48,7 +48,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     tap_dance_action_t *action;
 
     switch (keycode) {
-        case TD(TD_TH_CE_C):  // list all tap dance keycodes with tap-hold configurations
+        case TD(TD_TH_CE_C):
             action = &tap_dance_actions[QK_TAP_DANCE_GET_INDEX(keycode)];
             if (!record->event.pressed && action->state.count && !action->state.finished) {
                 tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)action->user_data;
@@ -58,28 +58,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-//#include "print.h"
-
 void tap_dance_tap_hold_finished(tap_dance_state_t *state, void *user_data) {
     tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)user_data;
 
     if (state->pressed) {
-        //uprintf("F%d %d %d %d\n", state->count, state->interrupted, state->pressed, state->finished);
         if (state->count > 0) {
             register_code16(tap_hold->hold);
             tap_hold->held = tap_hold->hold;
         }
-        //else {
-        //    register_code16(tap_hold->tap);
-        //    tap_hold->held = tap_hold->tap;
-        //}
     }
 }
 
 void tap_dance_tap_hold_reset(tap_dance_state_t *state, void *user_data) {
     tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)user_data;
-    //uprintf("R%d %d %d %d\n", state->count, state->interrupted, state->pressed, state->finished);
-
     if (tap_hold->held) {
         unregister_code16(tap_hold->held);
         tap_hold->held = 0;

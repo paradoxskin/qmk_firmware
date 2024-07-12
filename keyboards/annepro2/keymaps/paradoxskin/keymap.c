@@ -4,10 +4,11 @@ enum anne_pro_layers {
   _BASE_LAYER,
   _FN1,
   _FN2,
-  _FN3,
+  _FNX,
+  _FNY,
   _TN1,
   _TN2,
-  _TNG,
+  _TN3,
 };
 
 // Key symbols are based on QMK. Use them to remap your keyboard
@@ -38,13 +39,55 @@ enum anne_pro_layers {
 * \-----------------------------------------------------------------------------------------/
 */
 enum {
-    TD_C_CE,
-    TD_R_BK,
+    TD_TH_CE_C
 };
 
+typedef struct {
+    uint16_t tap;
+    uint16_t hold;
+    uint16_t held;
+} tap_dance_tap_hold_t;
+
+#define QK_TAP_DANCE_GET_INDEX(kc) ((kc)&0xFF)
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    tap_dance_action_t *action;
+
+    switch (keycode) {
+        case TD(TD_TH_CE_C):
+            action = &tap_dance_actions[QK_TAP_DANCE_GET_INDEX(keycode)];
+            if (!record->event.pressed && action->state.count && !action->state.finished) {
+                tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)action->user_data;
+                tap_code16(tap_hold->tap);
+            }
+    }
+    return true;
+}
+
+void tap_dance_tap_hold_finished(tap_dance_state_t *state, void *user_data) {
+    tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)user_data;
+
+    if (state->pressed) {
+        if (state->count > 0) {
+            register_code16(tap_hold->hold);
+            tap_hold->held = tap_hold->hold;
+        }
+    }
+}
+
+void tap_dance_tap_hold_reset(tap_dance_state_t *state, void *user_data) {
+    tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)user_data;
+    if (tap_hold->held) {
+        unregister_code16(tap_hold->held);
+        tap_hold->held = 0;
+    }
+}
+
+#define ACTION_TAP_DANCE_TAP_HOLD(tap, hold) \
+    { .fn = {NULL, tap_dance_tap_hold_finished, tap_dance_tap_hold_reset}, .user_data = (void *)&((tap_dance_tap_hold_t){tap, hold, 0}), }
+
 tap_dance_action_t tap_dance_actions[] = {
-    [TD_C_CE] = ACTION_TAP_DANCE_DOUBLE(KC_LCTL, C(KC_E)),
-    [TD_R_BK] = ACTION_TAP_DANCE_LAYER_MOVE(KC_RIGHT, _BASE_LAYER)
+    [TD_TH_CE_C] = ACTION_TAP_DANCE_TAP_HOLD(C(KC_E), KC_LCTL)
 };
 
 const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -53,7 +96,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,           KC_Q,     KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_LBRC,  KC_RBRC,  KC_BSLS,
         LT(_FN1,KC_ESC),  KC_A,     KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,            KC_ENT,
         KC_LSFT,                    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,   KC_SLSH,            RSFT_T(KC_UP),
-        TD(TD_C_CE),      MO(_FN2),          KC_LGUI, MT(MOD_LALT,KC_SPC),                KC_RALT, LT(_FN1,KC_LEFT),  LT(_FN2,KC_DOWN),   LT(_FN3,KC_RIGHT)
+        TD(TD_TH_CE_C),      MO(_FN2),          KC_LGUI, MT(MOD_LALT,KC_SPC),                KC_RALT, LT(_FN1,KC_LEFT),  LT(_FN2,KC_DOWN),   LT(_FNX,KC_RIGHT)
     ),
 
     [_FN1] = LAYOUT_60_ansi( /* Base */
@@ -72,21 +115,28 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_MUTE, XXXXXXX,  KC_MPLY,                            XXXXXXX,                            XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX
     ),
 
-    [_FN3] = LAYOUT_60_ansi(
-        TO(_TN2), _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,  _______,
-        _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,  _______,
-        _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,            _______,
-        TO(_TNG),           _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,            _______,
-        TO(_TN1), _______,  _______,                            _______,                            _______,  _______,  _______,  _______
+    [_FNX] = LAYOUT_60_ansi(
+        KC_CAPS,  _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,  TO(_TN1),
+        _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,  TO(_TN2),
+        _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,            TO(_TN3),
+        _______,            _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,            _______,
+        _______,  _______,  _______,                            _______,                            _______,  _______,  _______,  _______
     ),
 
-    // TO layer
+    [_FNY] = LAYOUT_60_ansi(
+        _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,  _______,
+        _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,  _______,
+        KC_ESC,  _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,            _______,
+        _______,            _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,            _______,
+        _______,  _______,  _______,                            _______,                            _______,  _______,  TO(_BASE_LAYER),  _______
+    ),
+
     [_TN1] = LAYOUT_60_ansi(
         KC_TAB,  KC_ENT,   KC_ENT,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,  _______,
         KC_7,    KC_8,     KC_9,    _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,  _______,
         KC_4,    KC_5,     KC_6,    _______, _______, _______, _______, _______, _______, _______, _______,  _______,            _______,
         KC_1,              KC_2,    KC_3,    _______, _______, _______, _______, _______, _______, _______,  _______,            _______,
-        KC_0,    KC_0,     KC_0,                               _______,                            _______,  _______,  _______,  TD(TD_R_BK)
+        KC_0,    KC_0,     KC_0,                               _______,                            _______,  _______,  _______,  LT(_FNY, KC_RIGHT)
     ),
 
     [_TN2] = LAYOUT_60_ansi(
@@ -94,15 +144,15 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,  _______,
         _______, _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,            _______,
         _______,           _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,            _______,
-        _______, _______,  _______,                            _______,                            _______,  _______,  _______,  TD(TD_R_BK)
+        _______, _______,  _______,                            _______,                            _______,  _______,  _______,  LT(_FNY, KC_RIGHT)
     ),
 
-    [_TNG] = LAYOUT_60_ansi(
+    [_TN3] = LAYOUT_60_ansi(
         _______, _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,  _______,
-        _______, _______,  _______, _______, _______, _______, _______, _______, _______, _______, KC_ESC,   _______,  _______,  _______,
+        _______, _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,   _______,  _______,  _______,
         KC_P,    _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,            _______,
         _______,           _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,            _______,
-        KC_LCTL, _______,  _______,                            KC_SPACE,                           _______,  _______,  _______,  TD(TD_R_BK)
+        KC_LCTL, _______,  _______,                            KC_SPACE,                           _______,  _______,  _______,  LT(_FNY, KC_RIGHT)
     ),
 };
 const uint16_t keymaps_size = sizeof(keymaps);
