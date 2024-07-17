@@ -41,14 +41,14 @@ typedef struct {
 #define QK_TAP_DANCE_GET_INDEX(kc) ((kc)&0xFF)
 
 enum {
-    TD_TH_CE_C,
+    TD_TH_CE_F1,
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     tap_dance_action_t *action;
 
     switch (keycode) {
-        case TD(TD_TH_CE_C):
+        case TD(TD_TH_CE_F1):
             action = &tap_dance_actions[QK_TAP_DANCE_GET_INDEX(keycode)];
             if (!record->event.pressed && action->state.count && !action->state.finished) {
                 tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)action->user_data;
@@ -81,7 +81,7 @@ void tap_dance_tap_hold_reset(tap_dance_state_t *state, void *user_data) {
     { .fn = {NULL, tap_dance_tap_hold_finished, tap_dance_tap_hold_reset}, .user_data = (void *)&((tap_dance_tap_hold_t){tap, hold, 0}), }
 
 tap_dance_action_t tap_dance_actions[] = {
-    [TD_TH_CE_C] = ACTION_TAP_DANCE_TAP_HOLD(C(KC_E), KC_LCTL)
+    [TD_TH_CE_F1] = ACTION_TAP_DANCE_TAP_HOLD(C(KC_F1), KC_LCTL)
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -98,7 +98,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,           KC_Q,     KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_LBRC,  KC_RBRC,  KC_BSLS,
         LT(_FN1,KC_ESC),  KC_A,     KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,            KC_ENT,
         KC_LSFT,                    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,   KC_SLSH,            RSFT_T(KC_UP),
-        TD(TD_TH_CE_C),  MO(_FN2), KC_LGUI,                   MT(MOD_LALT,KC_SPC),       KC_RALT, LT(_FN1,KC_LEFT),  LT(_FN2,KC_DOWN),   LT(_FNX,KC_RIGHT)
+        TD(TD_TH_CE_F1),  MO(_FN2), KC_LGUI,                   MT(MOD_LALT,KC_SPC),       KC_RALT, LT(_FN1,KC_LEFT),  LT(_FN2,KC_DOWN),   LT(_FNX,KC_RIGHT)
     ),
 
     [_FN1] = LAYOUT_ansi_61(
@@ -126,9 +126,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_FNY] = LAYOUT_ansi_61(
+        KC_ESC,   _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,       _______,
         _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,       _______,
-        _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,  _______,       _______,
-        KC_ESC,   _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,                 _______,
+        _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,                 _______,
         _______,            _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______,                 _______,
         _______,  _______,  _______,                            _______,                            _______,  _______,  TO(WIN_BASE),  _______
     ),
