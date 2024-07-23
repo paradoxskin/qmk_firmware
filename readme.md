@@ -42,6 +42,8 @@ QMK is developed and maintained by Jack Humbert of OLKB with contributions from 
 * Build: `qmk compile -kb keychron/v4/ansi -km paradoxskin` => `keychron_v4_ansi_paradoxskin.bin`
 * DFU: Hold reset button under L5#4 while replugin USB / Hold L1#1 while replugin USB
 * Flash: `qmk flash xxx.bin`
+> k9 pro: `git checkout myk9pro` -> `git submodule update` -> same
+> back to mime branch need `git submodule update` again
 
 ### AP2:
 
