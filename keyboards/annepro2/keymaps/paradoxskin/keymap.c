@@ -92,19 +92,19 @@ tap_dance_action_t tap_dance_actions[] = {
 
 const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE_LAYER] = LAYOUT_60_ansi( /* Base */
-        KC_GRAVE,         KC_1,     KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,
-        KC_TAB,           KC_Q,     KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_LBRC,  KC_RBRC,  KC_BSLS,
-        LT(_FN1,KC_ESC),  KC_A,     KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,            KC_ENT,
-        KC_LSFT,                    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,   KC_SLSH,            RSFT_T(KC_UP),
-        TD(TD_TH_CE_F1),      MO(_FN2),          KC_LGUI, MT(MOD_LALT,KC_SPC),                KC_RALT, LT(_FN1,KC_LEFT),  LT(_FN2,KC_DOWN),   LT(_FNX,KC_RIGHT)
+        KC_GRAVE,            KC_1,     KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,
+        LT(_FN1,KC_TAB),     KC_Q,     KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_LBRC,  KC_RBRC,  KC_BSLS,
+        MT(MOD_LCTL,KC_ESC), KC_A,     KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,            KC_ENT,
+        KC_LSFT,                       KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,   KC_SLSH,            RSFT_T(KC_UP),
+        TD(TD_TH_CE_F1),     MO(_FN2),          KC_LGUI, MT(MOD_LALT,KC_SPC),                KC_RALT, LT(_FN1,KC_LEFT),  LT(_FN2,KC_DOWN),   LT(_FNX,KC_RIGHT)
     ),
 
     [_FN1] = LAYOUT_60_ansi( /* Base */
         KC_AP2_BT_UNPAIR, KC_AP2_BT1,  KC_AP2_BT2, KC_AP2_BT3, KC_AP2_BT4, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
-        XXXXXXX,          KC_BTN1,     KC_MS_U,    KC_BTN2,    XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  RGB_HUI,  RGB_SAI,  RGB_VAI,
-        XXXXXXX,          KC_MS_L,     KC_MS_D,    KC_MS_R,    XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  RGB_SPI,            RGB_MOD,
+        XXXXXXX,          KC_MS_L,     KC_MS_U,    XXXXXXX,    XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  RGB_HUI,  RGB_SAI,  RGB_VAI,
+        XXXXXXX,          KC_MS_D,     KC_MS_R,    KC_BTN1,    XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  RGB_SPI,            RGB_MOD,
         KC_LSFT,                       XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,            RGB_TOG,
-        XXXXXXX,          XXXXXXX,     KC_PSCR,                                     XXXXXXX,                            XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX
+        XXXXXXX,          XXXXXXX,     KC_PSCR,                                     KC_BTN2,                            XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX
     ),
 
     [_FN2] = LAYOUT_60_ansi( /* Base */
