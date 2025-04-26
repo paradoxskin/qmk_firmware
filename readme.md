@@ -50,3 +50,8 @@ QMK is developed and maintained by Jack Humbert of OLKB with contributions from 
 * Build: `qmk compile -kb annepro2/c18 -km paradoxskin` => `annepro2_c18_paradoxskin.bin`
 * DFU: Hold L1#1 while replugin USB
 * Flash: Use [annepro2\_tools](https://github.com/paradoxskin/AnnePro2-Tools)
+
+### code
+```
+qmk generate-compilation -database -kb keychron/v4/ansi -km paradoxskin
+```
