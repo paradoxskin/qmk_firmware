@@ -192,6 +192,7 @@ bool pre_process_record_user(uint16_t keycode, keyrecord_t *record)
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record)
 {
+    static char shift_sign = 0;
     switch (keycode) {
         case ODD_BG ... ODD_ED:
             if (odd_actions[ODD_IDX(keycode)].process) {
@@ -199,10 +200,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             }
             break;
         case KC_LSFT:
-            if (!record->event.pressed) {
+            if (record->event.pressed) {
+                /* start count */
+                shift_sign = 1;
+            } else if (shift_sign) { /* release */
+                /* count result: only press&release shift */
                 g_odd_space_time = record->event.time;
                 g_odd_space_type = keycode;
+                shift_sign = 0;
             }
+            break;
+        default:
+            shift_sign = 0;
     }
     return true;
 }
