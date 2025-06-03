@@ -283,19 +283,27 @@ void fn_td_tap_hold_release(tap_dance_state_t *state, void *user_data)
 bool pre_odd_space(uint16_t keycode, keyrecord_t *record)
 {
     static uint16_t now_kc = MT(MOD_LALT, KC_SPC);
+    static uint16_t release_time;
+    static uint8_t light_on;
     if (record->event.pressed) {
         if (timer_elapsed(g_odd_space_time) < TAPPING_TERM) {
             switch (g_odd_space_type) {
                 case KC_LSFT:
-                    now_kc = KC_LSFT;
+                    now_kc = MT(MOD_LSFT, KC_SPC);
                     rgb_matrix_set_color(41, 0, 5, 5);
+                    light_on = 1;
                     break;
             }
-        } else {
+        } else if (timer_elapsed(release_time) >= TAPPING_TERM) {
+            // MT finish
             now_kc = MT(MOD_LALT, KC_SPC);
         }
     } else {
-        rgb_matrix_set_color(41, 0, 0, 0);
+        release_time = record->event.time;
+        if (light_on) {
+            rgb_matrix_set_color(41, 0, 0, 0);
+            light_on = 0;
+        }
     }
     record->keycode = now_kc;
     return true;

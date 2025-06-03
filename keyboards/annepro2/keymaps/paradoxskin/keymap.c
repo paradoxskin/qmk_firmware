@@ -227,16 +227,19 @@ void fn_td_tap_hold_release(tap_dance_state_t *state, void *user_data)
 bool pre_odd_space(uint16_t keycode, keyrecord_t *record)
 {
     static uint16_t now_kc = MT(MOD_LALT, KC_SPC);
+    static uint16_t release_time;
     if (record->event.pressed) {
         if (timer_elapsed(g_odd_space_time) < TAPPING_TERM) {
             switch (g_odd_space_type) {
                 case KC_LSFT:
-                    now_kc = KC_LSFT;
+                    now_kc = MT(MOD_LSFT, KC_SPC);
                     break;
             }
-        } else {
+        } else if (timer_elapsed(release_time) >= TAPPING_TERM) {
             now_kc = MT(MOD_LALT, KC_SPC);
         }
+    } else {
+        release_time = record->event.time;
     }
     record->keycode = now_kc;
     return true;
