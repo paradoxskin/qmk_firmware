@@ -221,6 +221,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             break;
         default:
             shift_sign = 0;
+            g_odd_space_type = 0;
     }
     return true;
 }
