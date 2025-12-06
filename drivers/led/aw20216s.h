@@ -61,7 +61,7 @@ typedef struct aw20216s_led_t {
     uint8_t b;
 } PACKED aw20216s_led_t;
 
-extern const aw20216s_led_t PROGMEM g_aw20216s_leds[AW20216S_LED_COUNT];
+extern aw20216s_led_t PROGMEM g_aw20216s_leds[AW20216S_LED_COUNT];
 
 void aw20216s_init_drivers(void);
 void aw20216s_init(pin_t cs_pin);

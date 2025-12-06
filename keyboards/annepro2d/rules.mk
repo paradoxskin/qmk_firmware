@@ -1,0 +1,24 @@
+# MCU
+MCU = cortex-m0plus
+ARMV = 6
+USE_FPU = no
+MCU_FAMILY = HT32
+MCU_SERIES = HT32F523xx
+MCU_LDSCRIPT = HT32F52352_ANNEPRO2D
+MCU_STARTUP = ht32f523xx
+
+CONSOLE_ENABLE=yes
+
+BOARD = ANNEPRO2D
+
+# Bootloader selection
+BOOTLOADER = custom
+PROGRAM_CMD = annepro2_tools --boot $(BUILD_DIR)/$(TARGET).bin
+
+COMMON_VPATH += $(DRIVER_PATH)/led
+
+# Anne Pro 2
+SPI_DRIVER_REQUIRED = yes
+SRC = \
+	aw20216s.c \
+	led.c \
