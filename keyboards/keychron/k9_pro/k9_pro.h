@@ -44,6 +44,7 @@ enum {
     BT_HST1,
     BT_HST2,
     BT_HST3,
+    BT_USB,
     BAT_LVL,
 #else
     BT_HST1 = KC_TRNS,

@@ -47,6 +47,7 @@ enum {
     BT_HST1,
     BT_HST2,
     BT_HST3,
+    BT_USB,
     P2P4G,
     BAT_LVL,
 #endif

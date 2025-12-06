@@ -39,29 +39,30 @@ bool process_record_keychron_wireless(uint16_t keycode, keyrecord_t *record) {
 
     switch (keycode) {
         case BT_HST1 ... BT_HST3:
-            if (get_transport() == TRANSPORT_BLUETOOTH) {
-                if (record->event.pressed) {
-                    host_idx = keycode - BT_HST1 + 1;
+            set_transport(TRANSPORT_BLUETOOTH);
+            if (record->event.pressed) {
+                host_idx = keycode - BT_HST1 + 1;
 
-                    pairing_key_timer = timer_read32();
-                    wireless_connect_ex(host_idx, 0);
-                } else {
-                    host_idx          = 0;
-                    pairing_key_timer = 0;
-                }
+                pairing_key_timer = timer_read32();
+                wireless_connect_ex(host_idx, 0);
+            } else {
+                host_idx          = 0;
+                pairing_key_timer = 0;
             }
             break;
         case P2P4G:
-            if (get_transport() == TRANSPORT_P2P4) {
-                if (record->event.pressed) {
-                    host_idx = P24G_INDEX;
+            set_transport(TRANSPORT_P2P4);
+            if (record->event.pressed) {
+                host_idx = P24G_INDEX;
 
-                    pairing_key_timer = timer_read32();
-                } else {
-                    host_idx          = 0;
-                    pairing_key_timer = 0;
-                }
+                pairing_key_timer = timer_read32();
+            } else {
+                host_idx          = 0;
+                pairing_key_timer = 0;
             }
+            break;
+        case BT_USB:
+            set_transport(TRANSPORT_USB);
             break;
 #if (defined(LED_MATRIX_ENABLE) || defined(RGB_MATRIX_ENABLE)) && defined(BAT_LEVEL_LED_LIST)
         case BAT_LVL:
