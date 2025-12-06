@@ -56,7 +56,7 @@
 #        define LED_DRIVER_SHUTDOWN_PIN C14
 
 #        define HOST_LED_MATRIX_LIST \
-            { 15, 16, 17 }
+            { 1, 2, 3 }
 
 #        define BAT_LEVEL_LED_LIST \
             { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }
@@ -85,9 +85,6 @@
 #define WEAR_LEVELING_LOGICAL_SIZE 2048
 #define WEAR_LEVELING_BACKING_SIZE (WEAR_LEVELING_LOGICAL_SIZE * 2)
 #define DYNAMIC_KEYMAP_EEPROM_MAX_ADDR 2047
-
-/* Old default behavior of mod-taps */
-#define HOLD_ON_OTHER_KEY_PRESS
 
 /* Factory test keys */
 #define FN_KEY1 MO(4)
