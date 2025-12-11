@@ -387,7 +387,6 @@ void es_chibios_user_idle_loop_hook(void) {
     delay = 50;
     while(delay--);
 
-    uint8_t Rol_Count = 0,Col_Count = 0;
     for (i = 0; i < KEYBOARD_ROL; i++) {
         if ((1 << i) & Sleep_Status) {
             for(uint8_t j = 0; j < KEYBOARD_COL; j++) {
@@ -397,8 +396,6 @@ void es_chibios_user_idle_loop_hook(void) {
                 while(delay--);
 
                 if (!gpio_read_pin(User_Pin_Tab_Rol[i])) {
-                    Rol_Count = i;
-                    Col_Count = j;
                     break;
                 }
 
@@ -434,11 +431,6 @@ void es_chibios_user_idle_loop_hook(void) {
                 }
 			}
         }
-
-        register_code(dynamic_keymap_get_keycode(0, Rol_Count, Col_Count));
-        wait_ms(2);
-        unregister_code(dynamic_keymap_get_keycode(0, Rol_Count, Col_Count));
-        wait_ms(2);
     }
 
 	Board_Wakeup_Init();

@@ -3,20 +3,19 @@
 #
 # Board: it should exist either in <chibios>/os/hal/boards/
 #  or <this_dir>/boards
-BOARD = 				FS026
-EEPROM_DRIVER =			custom
-NO_USB_STARTUP_CHECK = 	yes
-BLUETOOTH_CUSTOM = 		yes
+BOARD = FS026
+EEPROM_DRIVER = custom
+NO_USB_STARTUP_CHECK = yes
+BLUETOOTH_CUSTOM = yes
 
-DEBOUNCE_TYPE = 		asym_eager_defer_pk
-RAW_ENABLE            = yes   # provides raw_hid_send()
-DYNAMIC_KEYMAP_ENABLE = yes   # explicit for clarity, VIA sets it implicitly
-VIA_ENABLE = 			yes
+DEBOUNCE_TYPE = asym_eager_defer_pk
+RAW_ENABLE = yes # provides raw_hid_send()
+
+LAYOUTS = 60_ansi
 
 # Include common library (replaces rdr_lib)
 VPATH += keyboards/qk61/common
 SRC += rdmctmzt_common.c
-SRC += quantum/dynamic_keymap.c
 SRC += three_mode.c
 SRC += user_battery.c
 SRC += user_eeprom.c

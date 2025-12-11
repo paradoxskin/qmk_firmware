@@ -57,82 +57,79 @@ void Ble_Name_Synchronization(void) {
 }
 
 uint8_t es_keyboard_leds(void) {
-    switch (Keyboard_Info.Key_Mode) {
-        case QMK_2P4G_MODE: break;
-        case QMK_BLE_MODE:  break;
-        case QMK_USB_MODE:  break;
-        default:            break;
-    }
-
     if(es_qmk_driver) {
-		return((*es_qmk_driver->keyboard_leds)());
-	}
+        return((*es_qmk_driver->keyboard_leds)());
+    }
 
     return 0;
 }
 
 void es_send_keyboard(report_keyboard_t *report) {
     switch (Keyboard_Info.Key_Mode) {
-        case QMK_2P4G_MODE: User_bluetooth_send_keyboard((uint8_t *)report,sizeof(report_keyboard_t));  break;
-        case QMK_BLE_MODE:  User_bluetooth_send_keyboard((uint8_t *)report,sizeof(report_keyboard_t));  break;
-        case QMK_USB_MODE:  break;
-        default:            break;
+        case QMK_2P4G_MODE:
+        case QMK_BLE_MODE:
+            User_bluetooth_send_keyboard((uint8_t *)report,sizeof(report_keyboard_t));
+            return;
+        default:
+            break;
     }
 
     if(es_qmk_driver) {
-		(*es_qmk_driver->send_keyboard)(report);
-	}
+        (*es_qmk_driver->send_keyboard)(report);
+    }
 }
 
 void es_send_nkro(report_nkro_t *report) {
     switch (Keyboard_Info.Key_Mode) {
-        case QMK_2P4G_MODE: User_bluetooth_send_keyboard((uint8_t *)report,sizeof(report_nkro_t));  break;
-        case QMK_BLE_MODE:  User_bluetooth_send_keyboard((uint8_t *)report,sizeof(report_nkro_t));  break;
-        case QMK_USB_MODE:  break;
-        default:            break;
+        case QMK_2P4G_MODE:
+        case QMK_BLE_MODE:
+            User_bluetooth_send_keyboard((uint8_t *)report,sizeof(report_nkro_t));
+            return;
+        default:
+            break;
     }
 
     if(es_qmk_driver) {
-		(*es_qmk_driver->send_nkro)(report);
-	}
+        (*es_qmk_driver->send_nkro)(report);
+    }
 }
 
 void es_send_mouse(report_mouse_t *report) {
     switch (Keyboard_Info.Key_Mode) {
-        case QMK_2P4G_MODE: User_bluetooth_send_keyboard((uint8_t *)report,sizeof(report_mouse_t));  break;
-        case QMK_BLE_MODE:  User_bluetooth_send_keyboard((uint8_t *)report,sizeof(report_mouse_t));  break;
-        case QMK_USB_MODE:  break;
-        default:            break;
+        case QMK_2P4G_MODE:
+        case QMK_BLE_MODE:
+            User_bluetooth_send_keyboard((uint8_t *)report,sizeof(report_mouse_t));
+            return;
+        default:
+            break;
     }
 
 
     if(es_qmk_driver) {
-		(*es_qmk_driver->send_mouse)(report);
-	}
+        (*es_qmk_driver->send_mouse)(report);
+    }
 }
 
 void es_send_extra(report_extra_t *report) {
     switch (Keyboard_Info.Key_Mode) {
-        case QMK_2P4G_MODE: User_bluetooth_send_keyboard((uint8_t *)report,sizeof(report_extra_t));  break;
-        case QMK_BLE_MODE:  User_bluetooth_send_keyboard((uint8_t *)report,sizeof(report_extra_t));  break;
-        case QMK_USB_MODE:  break;
-        default:            break;
+        case QMK_2P4G_MODE:
+        case QMK_BLE_MODE:
+            User_bluetooth_send_keyboard((uint8_t *)report,sizeof(report_extra_t));
+            return;
+        default:
+            break;
     }
 
     if(es_qmk_driver) {
-		(*es_qmk_driver->send_extra)(report);
-	}
+        (*es_qmk_driver->send_extra)(report);
+    }
 }
 
 #ifdef RAW_ENABLE
 void es_send_raw_hid(uint8_t *data, uint8_t length) {
-    if(!es_qmk_driver) {
-        return;
-    }
-
     if(es_qmk_driver && es_qmk_driver->send_raw_hid) {
-		(*es_qmk_driver->send_raw_hid)(data, length);
-	}
+        (*es_qmk_driver->send_raw_hid)(data, length);
+    }
 }
 #endif
 
@@ -149,9 +146,9 @@ const host_driver_t es_user_driver  = {
 };
 
 void User_bluetooth_send_keyboard(uint8_t *report, uint32_t len) {
-	if(app_2g4_buffer_full()) {
-		return;
-	}
+    if(app_2g4_buffer_full()) {
+        return;
+    }
 
     if (len > USER_KEYBOARD_LENGTH - 3) {
         len = USER_KEYBOARD_LENGTH - 3;
@@ -207,11 +204,11 @@ void User_Usb_Init(void) {
 void es_restart_usb_driver(void) {
     md_rcu_enable_usb(RCU);
     ald_usb_device_components_init();
-	USB->TXIER = 0x7F;
-	USB->RXIER = 0x7E;
-	USB->IER = 0x2F;
-	usb_lld_connect_bus(0);
-	ald_usb_int_register();
+    USB->TXIER = 0x7F;
+    USB->RXIER = 0x7E;
+    USB->IER = 0x2F;
+    usb_lld_connect_bus(0);
+    ald_usb_int_register();
 }
 
 void Usb_Disconnect(void) {

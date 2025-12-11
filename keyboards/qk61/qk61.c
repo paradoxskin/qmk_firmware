@@ -31,11 +31,11 @@ uint8_t Test_Colour = 0U;
 #define LED_BATT_INDEX      (1)
 
 // QK61 mode indicator LED indices - using keys that should be visible
-#define LED_BLE_1_INDEX     (15)  // 'Q' key position
-#define LED_BLE_2_INDEX     (16)  // 'W' key position
-#define LED_BLE_3_INDEX     (17)  // 'E' key position
-#define LED_2P4G_INDEX      (18)  // 'R' key position
-#define LED_USB_INDEX       (19)  // 'T' key position
+#define LED_BLE_1_INDEX     (1)   // '1' key position
+#define LED_BLE_2_INDEX     (2)   // '2' key position
+#define LED_BLE_3_INDEX     (3)   // '3' key position
+#define LED_2P4G_INDEX      (4)   // '4' key position
+#define LED_USB_INDEX       (14)  // 'Tab' key position
 
 // QK61 battery level indicator mapping
 uint8_t Led_Batt_Index_Tab[10] = {
@@ -352,7 +352,7 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
                         case QMK_BLE_CHANNEL_2: rgb_matrix_set_color(LED_BLE_2_INDEX, U_PWM, U_PWM, U_PWM); break;
                         case QMK_BLE_CHANNEL_3: rgb_matrix_set_color(LED_BLE_3_INDEX, U_PWM, U_PWM, U_PWM); break;
                         default:                                                                            break;
-                    } 
+                    }
                 } break;
                 case QMK_2P4G_MODE:             rgb_matrix_set_color(LED_2P4G_INDEX, U_PWM, U_PWM, U_PWM);  break;
                 case QMK_USB_MODE:              rgb_matrix_set_color(LED_USB_INDEX,  U_PWM, U_PWM, U_PWM);  break;
@@ -365,20 +365,12 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 }
 
 bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
-    Usb_Change_Mode_Delay = 0;
-    Usb_Change_Mode_Wakeup = false;
-
-    if (Test_Led) {
-        if ((keycode != KC_SPC) && (keycode != MO(2)) && (keycode != MO(3)) && (keycode != KC_LCTL)) {
-            Test_Led = false;
-        }
-    }
-
     switch (keycode) {
         case QMK_KB_MODE_2P4G: {                                    //2.4G
             if (record->event.pressed) {
+                Usb_Change_Mode_Delay = 0;
+                Usb_Change_Mode_Wakeup = false;
                 Key_2p4g_Status = true;
-                Usb_Disconnect();
                 if (Keyboard_Info.Key_Mode != QMK_2P4G_MODE) {
                     Keyboard_Info.Key_Mode = QMK_2P4G_MODE;
                     Spi_Send_Commad(USER_SWITCH_2P4G_MODE);
@@ -395,9 +387,10 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
         } return true;
         case QMK_KB_MODE_BLE1: {
             if (record->event.pressed) {
+                Usb_Change_Mode_Delay = 0;
+                Usb_Change_Mode_Wakeup = false;
                 Key_Ble_1_Status = true;
-                Usb_Disconnect();
-                if ((Keyboard_Info.Key_Mode != QMK_BLE_MODE) || ((Keyboard_Info.Key_Mode == QMK_BLE_MODE) && (Keyboard_Info.Ble_Channel != QMK_BLE_CHANNEL_1))) {   /*如果当前模式不是BLE模式则切换为BLE，或者BLE通道不相同*/
+                if (!((Keyboard_Info.Key_Mode == QMK_BLE_MODE) && (Keyboard_Info.Ble_Channel == QMK_BLE_CHANNEL_1))) {
                     Keyboard_Info.Key_Mode = QMK_BLE_MODE;
                     Keyboard_Info.Ble_Channel = QMK_BLE_CHANNEL_1;
                     Spi_Send_Commad(USER_SWITCH_BLE_1_MODE);
@@ -414,9 +407,10 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
         } return true;
         case QMK_KB_MODE_BLE2: {
             if (record->event.pressed) {
+                Usb_Change_Mode_Delay = 0;
+                Usb_Change_Mode_Wakeup = false;
                 Key_Ble_2_Status = true;
-                Usb_Disconnect();
-                if ((Keyboard_Info.Key_Mode != QMK_BLE_MODE) || ((Keyboard_Info.Key_Mode == QMK_BLE_MODE) && (Keyboard_Info.Ble_Channel != QMK_BLE_CHANNEL_2))) {   /*如果当前模式不是BLE模式则切换为BLE，或者BLE通道不相同*/
+                if (!((Keyboard_Info.Key_Mode == QMK_BLE_MODE) && (Keyboard_Info.Ble_Channel == QMK_BLE_CHANNEL_2))) {
                     Keyboard_Info.Key_Mode = QMK_BLE_MODE;
                     Keyboard_Info.Ble_Channel = QMK_BLE_CHANNEL_2;
                     Spi_Send_Commad(USER_SWITCH_BLE_2_MODE);
@@ -433,9 +427,10 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
         } return true;
         case QMK_KB_MODE_BLE3: {
             if (record->event.pressed) {
+                Usb_Change_Mode_Delay = 0;
+                Usb_Change_Mode_Wakeup = false;
                 Key_Ble_3_Status = true;
-                Usb_Disconnect();
-                if ((Keyboard_Info.Key_Mode != QMK_BLE_MODE) || ((Keyboard_Info.Key_Mode == QMK_BLE_MODE) && (Keyboard_Info.Ble_Channel != QMK_BLE_CHANNEL_3))) {   /*如果当前模式不是BLE模式则切换为BLE，或者BLE通道不相同*/
+                if (!((Keyboard_Info.Key_Mode == QMK_BLE_MODE) && (Keyboard_Info.Ble_Channel == QMK_BLE_CHANNEL_3))) {
                     Keyboard_Info.Key_Mode = QMK_BLE_MODE;
                     Keyboard_Info.Ble_Channel = QMK_BLE_CHANNEL_3;
                     Spi_Send_Commad(USER_SWITCH_BLE_3_MODE);
@@ -473,68 +468,6 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
                 User_Key_Batt_Count = 0;
             }
         } return true;
-        case QMK_WIN_LOCK: {
-            if (!record->event.pressed) {
-                if (Keyboard_Info.Mac_Win_Mode == INIT_MAC_MODE) {
-                    if (Keyboard_Info.Win_Lock == INIT_WIN_LOCK) {
-                        Keyboard_Info.Win_Lock = INIT_WIN_NLOCK;
-                        Save_Flash_Set();
-                    }
-                } else {
-                    if (Keyboard_Info.Win_Lock == INIT_WIN_NLOCK) {
-                        Keyboard_Info.Win_Lock = INIT_WIN_LOCK;
-                        unregister_code(KC_LGUI); unregister_code(KC_RGUI); unregister_code(KC_APP);
-                    } else {
-                        Keyboard_Info.Win_Lock = INIT_WIN_NLOCK;
-                    }
-                    Save_Flash_Set();
-                }
-            }
-        } return true;
-        case QMK_KB_SIX_N_CH: {
-            if (record->event.pressed) {
-                if(keymap_config.nkro) {
-                    es_change_qmk_nkro_mode_disable();
-                    Mac_Win_Point_Count = 3;
-                } else {
-                    es_change_qmk_nkro_mode_enable();
-                    Led_Point_Count = 3;
-                }
-            }
-        } return true;
-        case QMK_TEST_COLOUR: {
-            if (!record->event.pressed) {
-                if (Test_Led == false) {
-                    Test_Led = true;
-                    Test_Colour = 0;
-                }
-            }
-        } return true;
-        case KC_SPC: {
-            if (!record->event.pressed) {
-                if (Test_Led) {
-                    Test_Colour++;
-                    if (Test_Colour >= 4) {
-                        Test_Colour = 0;
-                    }
-                }
-            }
-        } return true;
-        case KC_LGUI: {                                             //key_win_l
-            if (Keyboard_Info.Win_Lock) {
-                record->event.pressed = false;
-            }
-        } return true;
-        case KC_RGUI: {                                             //key_win_r
-            if (Keyboard_Info.Win_Lock) {
-                record->event.pressed = false;
-            }
-        } return true;
-        case KC_APP: {                                              //key_app
-            if (Keyboard_Info.Win_Lock) {
-                record->event.pressed = false;
-            }
-        } return true;
         case RM_VALU: {
             if (!record->event.pressed) {
                 if (rgb_matrix_get_val() >= RGB_MATRIX_MAXIMUM_BRIGHTNESS) {
@@ -563,75 +496,8 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
                 }
             }
         } return true;
-        case MO(2): {                                               //FN
-            if (record->event.pressed) {
-                Key_Fn_Status = true;
-            } else {
-                Key_Fn_Status = false;
-            }
-        } return true;
-        case MO(3): {                                               //FN
-            if (record->event.pressed) {
-                Key_Fn_Status = true;
-            } else {
-                Key_Fn_Status = false;
-            }
-        } return true;
-        case TO(0): {                                               //WIN
-            if (!record->event.pressed) {
-                if ((record->event.key.col == WIN_COL) && (record->event.key.row == WIN_ROL) && (Keyboard_Info.Mac_Win_Mode != INIT_WIN_MODE)) {
-                    Keyboard_Info.Mac_Win_Mode = INIT_WIN_MODE;
-                    Mac_Win_Point_Count = 1;
-                    unregister_code(KC_LALT); unregister_code(KC_LGUI); unregister_code(KC_RALT); unregister_code(KC_RGUI); unregister_code(KC_APP);
-                    Save_Flash_Set();
-                }
-            }
-        } return true;
-        case TO(1): {                                               //MAC
-            if (!record->event.pressed) {
-                if ((record->event.key.col == MAC_COL) && (record->event.key.row == MAC_ROL) && (Keyboard_Info.Mac_Win_Mode != INIT_MAC_MODE)) {
-                    Keyboard_Info.Mac_Win_Mode = INIT_MAC_MODE;
-                    Keyboard_Info.Win_Lock = INIT_WIN_NLOCK;
-                    Mac_Win_Point_Count = 3;
-                    unregister_code(KC_LALT); unregister_code(KC_LGUI); unregister_code(KC_RALT); unregister_code(KC_RGUI); unregister_code(KC_APP);
-                    Save_Flash_Set();
-                }
-            }
-        } return true;
-        case EE_CLR: {
-            if (record->event.pressed) {
-                Key_Reset_Status = true;
-                record->event.pressed = false;
-            } else {
-                Key_Reset_Status = false;
-            }
-            Func_Time_3s_Count = 0;
-        } return true;
-        case QMK_DEBUG_SWITCH: {
-            if (record->event.pressed) {
-                Debug_Mode_Switch_Position();
-            }
-        } return true;
-        case QMK_MAC_WIN_CH: {
-            if (!record->event.pressed) {
-                if (Keyboard_Info.Mac_Win_Mode == INIT_WIN_MODE) {
-                    // Switch to Mac mode
-                    Keyboard_Info.Mac_Win_Mode = INIT_MAC_MODE;
-                    Keyboard_Info.Win_Lock = INIT_WIN_NLOCK;  // Unlock Win key in Mac mode
-                    Mac_Win_Point_Count = 3;  // Blink 3 times for Mac mode
-                    layer_on(1);  // Switch to Mac layer
-                    unregister_code(KC_LALT); unregister_code(KC_LGUI); unregister_code(KC_RALT); unregister_code(KC_RGUI); unregister_code(KC_APP);
-                    Save_Flash_Set();
-                } else {
-                    // Switch to Windows mode
-                    Keyboard_Info.Mac_Win_Mode = INIT_WIN_MODE;
-                    Mac_Win_Point_Count = 1;  // Blink 1 time for Windows mode
-                    layer_off(1);  // Switch to Windows layer (layer 0)
-                    unregister_code(KC_LALT); unregister_code(KC_LGUI); unregister_code(KC_RALT); unregister_code(KC_RGUI); unregister_code(KC_APP);
-                    Save_Flash_Set();
-                }
-            }
-        } return true;
-        default:    return true; // Process all other keycodes normally
+        default:
+            break;
     }
+    return process_record_user(keycode, record);
 }

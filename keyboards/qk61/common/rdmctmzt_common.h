@@ -59,9 +59,9 @@
 #define USER_BATTERY_LENGTH		0X02
 
 #define KB_REPORT_ID            0x06    // Extend keyboard report ID.
-#define SYS_REPORT_ID     	    0x03    // Extend System   report ID.
-#define CON_REPORT_ID     	    0x04    // Extend Consumer report ID.
-#define MOUSE_REPORT_ID  	    0x02    // Extend mouse	   report ID.
+#define SYS_REPORT_ID           0x03    // Extend System   report ID.
+#define CON_REPORT_ID           0x04    // Extend Consumer report ID.
+#define MOUSE_REPORT_ID         0x02    // Extend mouse	   report ID.
 
 #define USER_DEFINE_KEY         (QK_KB)
 enum Custom_Keycodes {
@@ -157,11 +157,11 @@ typedef enum {
 #define MODE_SWITCH_DEBOUNCE_TIME   100         // 100ms debounce
 #define MODE_INDICATOR_TIMEOUT      1000        // Show for 1000ms (1 second)
 
-#define KC_K29 	KC_BACKSLASH
-#define KC_K42 	KC_NONUS_HASH
-#define KC_K45 	KC_NONUS_BACKSLASH
-#define KC_K56 	KC_INTERNATIONAL_1
-#define KC_K14  KC_INTERNATIONAL_3
+#define KC_K29	KC_BACKSLASH
+#define KC_K42	KC_NONUS_HASH
+#define KC_K45	KC_NONUS_BACKSLASH
+#define KC_K56	KC_INTERNATIONAL_1
+#define KC_K14	KC_INTERNATIONAL_3
 #define KC_K132	KC_INTERNATIONAL_4
 #define KC_K131	KC_INTERNATIONAL_5
 #define KC_K133	KC_INTERNATIONAL_2
