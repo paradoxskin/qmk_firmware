@@ -15,10 +15,9 @@ BOARD = ANNEPRO2D
 BOOTLOADER = custom
 PROGRAM_CMD = annepro2_tools --boot $(BUILD_DIR)/$(TARGET).bin
 
-COMMON_VPATH += $(DRIVER_PATH)/led
+# RGB matrix (direct-drive AW20216S on SPI0) is enabled via keyboard.json.
 
-# Anne Pro 2
-SPI_DRIVER_REQUIRED = yes
+# BLE module UART + local LED map
 SRC = \
-	aw20216s.c \
+	annepro2_ble.c \
 	led.c \

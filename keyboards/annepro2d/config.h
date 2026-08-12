@@ -19,16 +19,19 @@
 
 #include "pin_defs.h"
 
-#define LINE_UART_TX B0
-#define LINE_UART_RX B1
-
-#define LINE_BT_UART_TX A2  // Master TX, BLE RX
-#define LINE_BT_UART_RX A3  // Master RX, BLE TX
+/*
+ * BLE module UART (USART1 = SD1).
+ * Per AP2D reverse engineering: BLE channel is PA4/PA5, AF6, 115200 8N1,
+ * and the BLE UART peripheral is USART1 (base 0x40040000).
+ * AP2D has no independent LED MCU, so there is no LED UART.
+ */
+#define LINE_BT_UART_TX A4  // Master TX, BLE RX
+#define LINE_BT_UART_RX A5  // Master RX, BLE TX
 
 // Obins stock firmware has something similar to this already enabled, but disabled by default in QMK
 #define PERMISSIVE_HOLD
 
-// SPI configuration
+// SPI configuration for the direct-drive AW20216S RGB controller
 #define SPI_DRIVER SPID0
 #define SPI_SCK_PIN B3
 #define SPI_MOSI_PIN B4
@@ -38,8 +41,18 @@
 
 #define AW20216S_CS_PIN_1 B2
 #define AW20216S_EN_PIN D3
-#define AW20216S_LED_COUNT 1
 #define AW20216S_SPI_MODE 0
-#define AW20216S_SPI_DIVISOR 16
-#define AW20216S_SCALING_MAX 150
-#define AW20216S_GLOBAL_CURRENT_MAX 150
+#define AW20216S_SPI_DIVISOR 4
+/*
+ * LED supply enable. Official AP2D KEY 3.08 RGB init (0xF09A) configures
+ * PB13 as a GPIO output and drives it HIGH to power the LED driver stage.
+ */
+#define LED_POWER_PIN B13
+/*
+ * Match the official AP2D KEY 3.08 RGB init (0x12302): global current and
+ * scaling are set to 0xFF, and MIX_FUNCTION is left at its reset value
+ * (official firmware never writes it, the stock QMK driver writes LPEN=1).
+ */
+#define AW20216S_GLOBAL_CURRENT_MAX 0xFF
+#define AW20216S_SCALING_MAX 0xFF
+#define AW20216S_MIX_FUNCTION 0x00
