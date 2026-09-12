@@ -496,6 +496,28 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
                 }
             }
         } return true;
+        case QK_RGB_MATRIX_TOGGLE: {
+            // Toggle between the full animation and indicator-only mode by
+            // clearing the LED flags instead of disabling the engine, so
+            // indicators (e.g. Caps Lock) keep working with the matrix "off".
+            // Consume both press and release: the generic handler acts on key
+            // release, so returning here for the release too is required.
+            if (record->event.pressed) {
+                switch (rgb_matrix_get_flags()) {
+                    case LED_FLAG_ALL:
+                        rgb_matrix_set_flags(LED_FLAG_NONE);
+                        rgb_matrix_set_color_all(0, 0, 0);
+                        break;
+                    default:
+                        rgb_matrix_set_flags(LED_FLAG_ALL);
+                        break;
+                }
+            }
+            if (!rgb_matrix_is_enabled()) {
+                rgb_matrix_set_flags(LED_FLAG_ALL);
+                rgb_matrix_enable();
+            }
+        } return false;
         default:
             break;
     }
