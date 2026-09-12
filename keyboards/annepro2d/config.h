@@ -48,6 +48,9 @@
  * PB13 as a GPIO output and drives it HIGH to power the LED driver stage.
  */
 #define LED_POWER_PIN B13
+
+// Caps Lock indicator LED (matrix[2][0], AW20216S channel SW1_CS7..9).
+#define CAPS_LOCK_LED_INDEX 28
 /*
  * Match the official AP2D KEY 3.08 RGB init (0x12302): global current and
  * scaling are set to 0xFF, and MIX_FUNCTION is left at its reset value

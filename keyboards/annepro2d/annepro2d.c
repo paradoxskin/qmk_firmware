@@ -111,18 +111,49 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
                 break;
         }
     }
+
+#if defined(RGB_MATRIX_ENABLE)
+    // Consume both press and release: the generic handler acts on key release,
+    // so returning here for the release too is required or it will re-toggle.
+    if (keycode == QK_RGB_MATRIX_TOGGLE) {
+        // Toggle between the full animation and indicator-only mode by
+        // clearing the LED flags instead of disabling the engine, so
+        // indicators (e.g. Caps Lock) keep working with the matrix "off".
+        if (record->event.pressed) {
+            switch (rgb_matrix_get_flags()) {
+                case LED_FLAG_ALL:
+                    rgb_matrix_set_flags(LED_FLAG_NONE);
+                    rgb_matrix_set_color_all(0, 0, 0);
+                    break;
+                default:
+                    rgb_matrix_set_flags(LED_FLAG_ALL);
+                    break;
+            }
+        }
+        if (!rgb_matrix_is_enabled()) {
+            rgb_matrix_set_flags(LED_FLAG_ALL);
+            rgb_matrix_enable();
+        }
+        return false;
+    }
+#endif
+
     return process_record_user(keycode, record);
 }
 
 #if defined(RGB_MATRIX_ENABLE)
-bool rgb_matrix_indicators_kb(void) {
-    // Light the Caps Lock key (LED index 28) while Caps Lock is active.
-    if (rgb_matrix_is_enabled()) {
-        // USB HID LED Output: Caps Lock is bit 1.
-        if (host_keyboard_leds() & (1 << 1)) {
-            rgb_matrix_set_color(28, 0xFF, 0xFF, 0xFF);
-        }
+bool rgb_matrix_indicators_advanced_kb(uint8_t led_min, uint8_t led_max) {
+    if (!rgb_matrix_indicators_advanced_user(led_min, led_max)) {
+        return false;
     }
-    return rgb_matrix_indicators_user();
+
+    // Light the Caps Lock key while Caps Lock is active.
+    if (host_keyboard_led_state().caps_lock) {
+        RGB_MATRIX_INDICATOR_SET_COLOR(CAPS_LOCK_LED_INDEX, 0xFF, 0xFF, 0xFF);
+    } else if (!rgb_matrix_get_flags()) {
+        // In indicator-only mode nothing else clears the LED, so do it here.
+        RGB_MATRIX_INDICATOR_SET_COLOR(CAPS_LOCK_LED_INDEX, 0, 0, 0);
+    }
+    return true;
 }
 #endif
